@@ -1,2 +1,2 @@
 # DVPP
-Damn Vulnerable Python Thing
+Damn Vulnerable Python Project
