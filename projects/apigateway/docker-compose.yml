@@ -1,0 +1,16 @@
+services:
+  apigateway:
+    build: .
+    container_name: apigateway
+    ports:
+      - "5004:5004"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - FLASK_ENV=development
+    restart: unless-stopped
+    networks:
+      - vulnlab
+networks:
+  vulnlab:
+    driver: bridge

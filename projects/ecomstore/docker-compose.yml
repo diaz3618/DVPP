@@ -1,0 +1,16 @@
+services:
+  ecomstore:
+    build: .
+    container_name: ecomstore
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./data:/tmp
+    environment:
+      - FLASK_ENV=development
+    restart: unless-stopped
+    networks:
+      - vulnlab
+networks:
+  vulnlab:
+    driver: bridge

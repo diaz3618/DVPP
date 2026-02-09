@@ -1,0 +1,19 @@
+services:
+  securedoc:
+    build: .
+    container_name: securedoc
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - vulnlab
+
+networks:
+  vulnlab:
+    driver: bridge

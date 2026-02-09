@@ -1,0 +1,17 @@
+services:
+  adminpanel:
+    build: .
+    container_name: adminpanel
+    ports:
+      - "5007:5007"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data:/tmp
+    environment:
+      - FLASK_ENV=development
+    restart: unless-stopped
+    networks:
+      - vulnlab
+networks:
+  vulnlab:
+    driver: bridge

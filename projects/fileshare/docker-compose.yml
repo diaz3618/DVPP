@@ -1,0 +1,16 @@
+services:
+  fileshare:
+    build: .
+    container_name: fileshare
+    ports:
+      - "5003:5003"
+    volumes:
+      - ./data:/tmp/uploads
+    environment:
+      - FLASK_ENV=development
+    restart: unless-stopped
+    networks:
+      - vulnlab
+networks:
+  vulnlab:
+    driver: bridge

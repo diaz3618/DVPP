@@ -1,0 +1,117 @@
+# DVPP - Master Docker Compose
+# Launches all 8 vulnerable applications simultaneously
+# ⚠️ FOR EDUCATIONAL USE ONLY - DO NOT EXPOSE TO INTERNET
+
+services:
+  # Project 1: SecureDoc - Document Management (Port 5000)
+  securedoc:
+    build: ./projects/securedoc
+    container_name: dvpp_securedoc
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./projects/securedoc/data:/app/data
+    networks:
+      - vulnlab
+    restart: unless-stopped
+
+  # Project 2: VulnBlog - Blog/CMS Platform (Port 5001)
+  vulnblog:
+    build: ./projects/vulnblog
+    container_name: dvpp_vulnblog
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./projects/vulnblog/data:/app/data
+    networks:
+      - vulnlab
+    restart: unless-stopped
+
+  # Project 3: DataViz - Analytics Dashboard (Port 5002)
+  dataviz:
+    build: ./projects/dataviz
+    container_name: dvpp_dataviz
+    ports:
+      - "5002:5002"
+    volumes:
+      - ./projects/dataviz/data:/app/data
+    networks:
+      - vulnlab
+    restart: unless-stopped
+
+  # Project 4: FileShare - File Upload Platform (Port 5003)
+  fileshare:
+    build: ./projects/fileshare
+    container_name: dvpp_fileshare
+    ports:
+      - "5003:5003"
+    volumes:
+      - ./projects/fileshare/data:/tmp/uploads
+    networks:
+      - vulnlab
+    restart: unless-stopped
+
+  # Project 5: APIGateway - REST API Service (Port 5004)
+  apigateway:
+    build: ./projects/apigateway
+    container_name: dvpp_apigateway
+    ports:
+      - "5004:5004"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - vulnlab
+    restart: unless-stopped
+    privileged: true
+
+  # Project 6: EcomStore - E-commerce Shop (Port 5005)
+  ecomstore:
+    build: ./projects/ecomstore
+    container_name: dvpp_ecomstore
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./projects/ecomstore/data:/tmp
+    networks:
+      - vulnlab
+    restart: unless-stopped
+
+  # Project 7: ChatApp - Real-time Chat (Port 5006)
+  chatapp:
+    build: ./projects/chatapp
+    container_name: dvpp_chatapp
+    ports:
+      - "5006:5006"
+    volumes:
+      - ./projects/chatapp/data:/tmp
+    networks:
+      - vulnlab
+    restart: unless-stopped
+
+  # Project 8: AdminPanel - Admin Dashboard (Port 5007)
+  adminpanel:
+    build: ./projects/adminpanel
+    container_name: dvpp_adminpanel
+    ports:
+      - "5007:5007"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./projects/adminpanel/data:/tmp
+    networks:
+      - vulnlab
+    restart: unless-stopped
+    privileged: true
+
+networks:
+  vulnlab:
+    driver: bridge
+    name: dvpp_vulnlab
+
+volumes:
+  securedoc_data:
+  vulnblog_data:
+  dataviz_data:
+  fileshare_data:
+  ecomstore_data:
+  chatapp_data:
+  adminpanel_data:

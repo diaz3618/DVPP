@@ -1,0 +1,16 @@
+services:
+  chatapp:
+    build: .
+    container_name: chatapp
+    ports:
+      - "5006:5006"
+    volumes:
+      - ./data:/tmp
+    environment:
+      - FLASK_ENV=development
+    restart: unless-stopped
+    networks:
+      - vulnlab
+networks:
+  vulnlab:
+    driver: bridge

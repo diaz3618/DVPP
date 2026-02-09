@@ -1,0 +1,19 @@
+services:
+  dataviz:
+    build: .
+    container_name: dataviz
+    ports:
+      - "5002:5002"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - vulnlab
+
+networks:
+  vulnlab:
+    driver: bridge
