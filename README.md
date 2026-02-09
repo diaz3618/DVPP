@@ -1,6 +1,6 @@
 # Damn Vulnerable Python Project
 
-⚠️ **WARNING**: This application contains INTENTIONAL security vulnerabilities for educational purposes.
+**WARNING**: This application contains INTENTIONAL security vulnerabilities for educational purposes.
 
 **DO NOT DEPLOY THIS APPLICATION IN ANY PRODUCTION ENVIRONMENT**
 
