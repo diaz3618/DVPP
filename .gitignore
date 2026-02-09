@@ -213,3 +213,4 @@ scripts/organize_exploits.sh
 scripts/cleanup_all.sh
 testsprojects/DSVPWA/
 projects/Python-VulnerableApp/
+tests

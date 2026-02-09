@@ -2,6 +2,30 @@
 
 Get all 8 vulnerable applications running in under 5 minutes.
 
+**Table of Contents**
+- [Super Quick Start (Docker)](#super-quick-start-docker)
+- [What You Get](#what-you-get)
+- [Application URLs](#application-urls)
+- [Test Credentials](#test-credentials)
+- [Quick Vulnerability Tests](#quick-vulnerability-tests)
+  - [SQL Injection (SecureDoc)](#1-sql-injection-securedoc)
+  - [Stored XSS (VulnBlog)](#2-stored-xss-vulnblog)
+  - [SSTI → RCE (VulnBlog Admin)](#3-ssti--rce-vulnblog-admin)
+  - [Deserialization RCE (DataViz)](#4-deserialization-rce-dataviz)
+  - [File Upload RCE (FileShare)](#5-file-upload-rce-fileshare)
+  - [SSRF (APIGateway)](#6-ssrf-apigateway)
+  - [Command Injection (ChatApp)](#7-command-injection-chatapp)
+  - [Docker Escape (AdminPanel)](#8-docker-escape-adminpanel)
+- [Stop Everything](#stop-everything)
+- [Quick Stats](#quick-stats)
+- [Learning Path](#learning-path)
+- [Safety Reminders](#safety-reminders)
+- [Troubleshooting](#troubleshooting)
+- [Next Steps](#next-steps)
+- [Challenge Yourself](#challenge-yourself)
+
+---
+
 ## Super Quick Start (Docker)
 
 ```bash
@@ -28,18 +52,19 @@ That's it! All 8 apps are now running in isolated Docker containers.
 
 | Application | URL | Port | Key Vulnerabilities |
 |------------|-----|------|---------------------|
-| SecureDoc | http://localhost:5000 | 5000 | SQLi, IDOR, LFI, RCE, XSS, SSRF |
-| VulnBlog | http://localhost:5001 | 5001 | XSS, CSRF, SSTI, RCE, Auth Bypass |
-| DataViz | http://localhost:5002 | 5002 | Deserialization, RCE, CSV Injection |
-| FileShare | http://localhost:5003 | 5003 | File Upload RCE, Path Traversal, LFI |
-| APIGateway | http://localhost:5004 | 5004 | SSRF, Docker Escape, Auth Bypass |
-| EcomStore | http://localhost:5005 | 5005 | SQLi, XSS, CSRF, RCE |
-| ChatApp | http://localhost:5006 | 5006 | XSS, RCE via Bot Commands |
-| AdminPanel | http://localhost:5007 | 5007 | Multiple RCE, Docker Escape |
+| SecureDoc | <http://localhost:5000> | 5000 | SQLi, IDOR, LFI, RCE, XSS, SSRF |
+| VulnBlog | <http://localhost:5001> | 5001 | XSS, CSRF, SSTI, RCE, Auth Bypass |
+| DataViz | <http://localhost:5002> | 5002 | Deserialization, RCE, CSV Injection |
+| FileShare | <http://localhost:5003> | 5003 | File Upload RCE, Path Traversal, LFI |
+| APIGateway | <http://localhost:5004> | 5004 | SSRF, Docker Escape, Auth Bypass |
+| EcomStore | <http://localhost:5005> | 5005 | SQLi, XSS, CSRF, RCE |
+| ChatApp | <http://localhost:5006> | 5006 | XSS, RCE via Bot Commands |
+| AdminPanel | <http://localhost:5007> | 5007 | Multiple RCE, Docker Escape |
 
 ## Test Credentials
 
 Where applicable (SecureDoc, VulnBlog, EcomStore):
+
 - **Admin:** `admin` / `admin123`
 - **User:** `user` / `password` or `user` / `user`
 - **Blogger:** `blogger` / `password`
@@ -47,6 +72,7 @@ Where applicable (SecureDoc, VulnBlog, EcomStore):
 ## Quick Vulnerability Tests
 
 ### 1. SQL Injection (SecureDoc)
+
 ```bash
 # Bypass login
 curl -X POST http://localhost:5000/auth/login \
@@ -54,6 +80,7 @@ curl -X POST http://localhost:5000/auth/login \
 ```
 
 ### 2. Stored XSS (VulnBlog)
+
 ```bash
 # Login first, then:
 curl -X POST http://localhost:5001/posts/create \
@@ -62,6 +89,7 @@ curl -X POST http://localhost:5001/posts/create \
 ```
 
 ### 3. SSTI → RCE (VulnBlog Admin)
+
 ```bash
 curl -X POST http://localhost:5001/admin/render \
   -b "session=..." \
@@ -69,6 +97,7 @@ curl -X POST http://localhost:5001/admin/render \
 ```
 
 ### 4. Deserialization RCE (DataViz)
+
 ```python
 # Create malicious pickle
 import pickle, os, base64
@@ -84,6 +113,7 @@ curl http://localhost:5002/data/load/1
 ```
 
 ### 5. File Upload RCE (FileShare)
+
 ```bash
 # Upload Python file (auto-executes)
 echo 'import os; os.system("id")' > shell.py
@@ -93,6 +123,7 @@ curl -X POST http://localhost:5003/upload \
 ```
 
 ### 6. SSRF (APIGateway)
+
 ```bash
 # Access cloud metadata
 curl -X POST http://localhost:5004/proxy \
@@ -101,6 +132,7 @@ curl -X POST http://localhost:5004/proxy \
 ```
 
 ### 7. Command Injection (ChatApp)
+
 ```bash
 # RCE via chatbot
 curl -X POST http://localhost:5006/bot \
@@ -109,6 +141,7 @@ curl -X POST http://localhost:5006/bot \
 ```
 
 ### 8. Docker Escape (AdminPanel)
+
 ```bash
 # Execute command in container
 curl -X POST http://localhost:5007/docker/exec \
@@ -164,12 +197,14 @@ docker-compose down -v
 ## Troubleshooting
 
 **Docker not starting?**
+
 ```bash
 sudo systemctl start docker
 docker info
 ```
 
 **Port already in use?**
+
 ```bash
 # Find what's using the port
 sudo lsof -i :5000
@@ -178,11 +213,13 @@ sudo lsof -i :5000
 ```
 
 **Permission denied on scripts?**
+
 ```bash
 chmod +x scripts/*.sh
 ```
 
 **Container build fails?**
+
 ```bash
 # Clean up and rebuild
 docker-compose down -v
@@ -200,6 +237,7 @@ docker-compose up --build
 ## Challenge Yourself
 
 Can you:
+
 1. Chain vulnerabilities across different apps?
 2. Escalate from user to admin in each app?
 3. Achieve RCE in all 8 applications?
